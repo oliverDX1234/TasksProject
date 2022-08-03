@@ -5,15 +5,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div v-if="isLoggedIn">
+                    <div v-if="$store.getters['authentication/isAuthenticated']">
                         <div class="d-flex justify-content-between">
                             <div class="nav-left d-flex">
                                 <router-link to="/dashboard" class="nav-item nav-link">Dashboard</router-link>
+                                <router-link to="/tasks" class="nav-item nav-link">Tasks</router-link>
                             </div>
 
                             <div class="nav-right d-flex">
-                                <p class="text-white mx-1">{{ user.name }}</p>
-                                <a class="nav-item nav-link" style="cursor: pointer;" @click="logout"><font-awesome-icon class="text-white" icon="fa-solid fa-arrow-right-from-bracket" /></a>
+                                <p class="text-white mx-1">{{ $store.getters['authentication/loggedUser'].name }}</p>
+                                <a class="nav-item nav-link" style="cursor: pointer;" @click="logout">
+                                    <font-awesome-icon class="text-white" icon="fa-solid fa-arrow-right-from-bracket"/>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -42,36 +45,21 @@
 </template>
 
 <script>
+import {mapActions} from "vuex"
+
 export default {
     name: "App",
-    data() {
-        return {
-            isLoggedIn: false,
-            user: null
-        }
-    },
-    created() {
-        if (window.Laravel.isLoggedin) {
-            this.isLoggedIn = true;
-            this.user = window.Laravel.user;
-        }
-    },
     methods: {
-        logout(e) {
+
+        ...mapActions("authentication", {
+            logoutUser: "logoutUser"
+        }),
+
+        async logout(e) {
             e.preventDefault()
-            this.$axios.get('/sanctum/csrf-cookie').then(response => {
-                this.$axios.post('/api/logout')
-                    .then(response => {
-                        if (response.data.success) {
-                            window.location.href = "/"
-                        } else {
-                            console.log(response)
-                        }
-                    })
-                    .catch(function (error) {
-                        console.error(error);
-                    });
-            })
+
+            await this.logoutUser();
+            await this.$router.push("/");
         }
     },
 }

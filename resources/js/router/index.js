@@ -1,25 +1,53 @@
 import {createWebHistory, createRouter} from "vue-router";
+import state from "../store";
 
-import Home from '../pages/Home';
 import Register from '../pages/Register';
-import Dashboard from '../pages/Dashboard';
+import Tasks from "../Pages/Tasks/Tasks"
+import AddTask from "../Pages/Tasks/AddTask";
 
 export const routes = [
     {
         name: 'home',
         path: '/',
-        component: Home
+        component: () => import("../Pages/Home"),
+        meta: {
+            requiresAuth: false,
+        },
     },
     {
         name: 'register',
         path: '/register',
-        component: Register
+        component: Register,
+        meta: {
+            requiresAuth: false,
+        },
     },
     {
         name: 'dashboard',
         path: '/dashboard',
-        component: Dashboard
-    }
+        component: () => import("../Pages/DashBoard"),
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        name: 'tasks',
+        path: '/tasks',
+        component: Tasks,
+        meta: {
+            requiresAuth: true,
+        },
+    },
+
+    {
+        name: 'add-task',
+        path: '/add-task',
+        component: AddTask,
+        meta: {
+            requiresAuth: true,
+        },
+    },
+
 ];
 
 const router = createRouter({
@@ -28,10 +56,18 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+    if (to.matched.some((record) => {
+        return record.meta && record.meta.requiresAuth
+    })) {
 
-    if (window.Laravel.isLoggedin) {
-        return next('dashboard');
+        if (state.getters['authentication/isAuthenticated']) {
+
+            return next();
+        } else {
+            return next('/');
+        }
     }
+
     next();
 })
 

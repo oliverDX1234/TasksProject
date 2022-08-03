@@ -1,6 +1,6 @@
 <template>
     <div>
-        Welcome {{ name }}
+        Welcome {{ $store.getters["authentication/loggedUser"].name }}
     </div>
 </template>
 
@@ -12,10 +12,5 @@ export default {
             name: null,
         }
     },
-    created() {
-        if (window.Laravel.user) {
-            this.name = window.Laravel.user.name
-        }
-    }
 }
 </script>

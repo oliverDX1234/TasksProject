@@ -5,9 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
 use Illuminate\Http\JsonResponse;
-use Session;
+use Illuminate\Support\Facades\Session;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
@@ -36,6 +35,7 @@ class UserController extends Controller
         // response
         $response = [
             'success' => $success,
+            'user' => $user ?? null,
             'message' => $message,
         ];
         return response()->json($response);
@@ -62,6 +62,7 @@ class UserController extends Controller
         // response
         $response = [
             'success' => $success,
+            'user' => auth()->user() ?? null,
             'message' => $message,
         ];
         return response()->json($response);

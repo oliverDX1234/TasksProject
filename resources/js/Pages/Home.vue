@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
     data() {
         return {
@@ -49,47 +51,46 @@ export default {
             error: null
         }
     },
-    watch:{
-        email(){
+    watch: {
+        email() {
             this.error = null;
         },
-        password(){
+        password() {
             this.error = null;
         }
     },
     methods: {
-        handleSubmit(e) {
+
+        ...mapActions("authentication", {
+            loginUser: "loginUser"
+        }),
+
+        async handleSubmit(e) {
             e.preventDefault()
 
             let that = this;
 
-            if (this.validateUserInput()) {
-                this.$axios.get('/sanctum/csrf-cookie').then(response => {
-                    this.$axios.post('api/login', {
-                        email: this.email,
-                        password: this.password
-                    })
-                        .then(response => {
 
-                            if (response.data.success) {
-                                this.$router.go('/dashboard')
-                            } else {
-                                this.error = response.data.message
-                            }
-                        })
-                        .catch(function () {
-                            that.error = "There was a problem processing the request";
-                        });
-                })
+            if (this.validateUserInput()) {
+
+                try {
+                    await this.loginUser({email: this.email, password: this.password});
+
+                    await this.$router.push({name: 'dashboard'})
+                } catch (error) {
+
+                    console.log(error);
+                    this.error = "There was a problem processing the request";
+                }
             }
         },
         validateUserInput() {
-            if(this.email === "" || this.password === ""){
+            if (this.email === "" || this.password === "") {
                 this.error = "Please enter all the required fields"
                 return false;
             }
 
-            if(this.password.length < 7){
+            if (this.password.length < 7) {
                 this.error = "The password has to be at least 7 characters";
 
                 return false;
