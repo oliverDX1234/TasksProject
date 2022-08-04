@@ -59,7 +59,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 that = _this;
 
                 if (!_this.validateUserInput()) {
-                  _context.next = 14;
+                  _context.next = 13;
                   break;
                 }
 
@@ -77,16 +77,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
 
               case 8:
-                _context.next = 14;
+                _context.next = 13;
                 break;
 
               case 10:
                 _context.prev = 10;
                 _context.t0 = _context["catch"](3);
-                console.log(_context.t0);
                 _this.error = "There was a problem processing the request";
 
-              case 14:
+              case 13:
               case "end":
                 return _context.stop();
             }

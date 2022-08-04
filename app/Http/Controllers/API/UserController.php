@@ -89,4 +89,14 @@ class UserController extends Controller
         ];
         return response()->json($response);
     }
+
+    public function allUsers(): JsonResponse
+    {
+        $users = User::all();
+
+        return response()->json([
+            "users" => $users,
+            "message" => "success"
+        ]);
+    }
 }

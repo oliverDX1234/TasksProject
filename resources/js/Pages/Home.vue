@@ -79,7 +79,6 @@ export default {
                     await this.$router.push({name: 'dashboard'})
                 } catch (error) {
 
-                    console.log(error);
                     this.error = "There was a problem processing the request";
                 }
             }

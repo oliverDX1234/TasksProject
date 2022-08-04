@@ -20,7 +20,10 @@ class UserTableSeeder extends Seeder
                 'name' => "User1",
                 'email' => "a@abc.org",
                 'password' => Hash::make('Secret!'),
-                "role" => "admin"
+                "role" => "admin",
+                "email_verified_at" => now(),
+                "created_at" => now(),
+                "updated_at" => now()
             ],
             [
                 'name' => "User2",
