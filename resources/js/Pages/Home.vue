@@ -76,7 +76,7 @@ export default {
                 try {
                     await this.loginUser({email: this.email, password: this.password});
 
-                    await this.$router.push({name: 'dashboard'})
+                    await this.$router.push({name: 'tasks'})
                 } catch (error) {
 
                     this.error = "There was a problem processing the request";

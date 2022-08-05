@@ -29,9 +29,21 @@ class TaskController extends Controller
         ]);
     }
 
-    public function create()
+
+    public function show($id)
     {
-        //
+        try{
+            $task = Task::where("id", $id)->with("user")->first();
+
+            return response()->json([
+                "task" => $task,
+                "message" => "success"
+            ], 200);
+        }catch(Exception $e){
+            return response()->json([
+                "message" => $e->getMessage()
+            ], 400);
+        }
     }
 
 
@@ -60,22 +72,16 @@ class TaskController extends Controller
         }
     }
 
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): JsonResponse
     {
         try{
             $task = Task::findOrFail($id);
 
-            $task->expiration_date = Carbon::createFromFormat('d/m/Y', $request->value);
+            $task->title = $request->has("title") ? $request->title : $task->title;
+            $task->expiration_date = $request->has('expiration') ? Carbon::createFromFormat('d/m/Y', $request->expiration) : $task->expiration_date;
+            $task->status = $request->has("status") ? $request->status : $task->status;
+            $task->user_id = $request->has("user_id") ? $request->user_id : $task->user_id;
+            $task->description = $request->has("description") ? $request->description : $task->description;
 
             $task->save();
 
@@ -86,18 +92,24 @@ class TaskController extends Controller
         }
 
         return response()->json([
-            "message" => "Successfully updated date"
+            "message" => "Successfully updated task"
         ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
+
+    public function destroy($id): JsonResponse
     {
-        //
+        try{
+            Task::destroy($id);
+
+            return response()->json([
+                "message" => "Successfully deleted task"
+            ], 200);
+
+        }catch(Exception $e){
+            return response()->json([
+                "message" => $e->getMessage()
+            ], 400);
+        }
     }
 }

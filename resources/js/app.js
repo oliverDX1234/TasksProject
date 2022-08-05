@@ -8,7 +8,7 @@ import store from './store'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 
-import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRightFromBracket, faRemove, faEdit } from '@fortawesome/free-solid-svg-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -18,7 +18,7 @@ import "vue-toastification/dist/index.css";
 import {ClientTable} from 'v-tables-3';
 
 
-library.add(faArrowRightFromBracket)
+library.add(faArrowRightFromBracket, faRemove, faEdit)
 
 const app = createApp(App)
 

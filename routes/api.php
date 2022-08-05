@@ -24,7 +24,5 @@ Route::group([ 'middleware' => ['auth:sanctum']], function(){
 
     Route::get('users', [UserController::class, 'allUsers']);
 
-    Route::post('add-user', [TaskController::class, 'store']);
-
     Route::resource('tasks', TaskController::class);
 });

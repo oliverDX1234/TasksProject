@@ -10916,6 +10916,11 @@ textarea.form-control-lg {
     margin-left: 10px;
 }
 
+.nav-left a:not(:last-child)::after{
+    content: "|";
+    margin-left: 10px;
+}
+
 .nav-right p{
     margin-bottom: 0;
 }

@@ -73,7 +73,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 6:
                 _context.next = 8;
                 return _this.$router.push({
-                  name: 'dashboard'
+                  name: 'tasks'
                 });
 
               case 8:

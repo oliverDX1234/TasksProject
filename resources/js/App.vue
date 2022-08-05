@@ -8,8 +8,8 @@
                     <div v-if="$store.getters['authentication/isAuthenticated']">
                         <div class="d-flex justify-content-between">
                             <div class="nav-left d-flex">
-                                <router-link to="/dashboard" class="nav-item nav-link">Dashboard</router-link>
                                 <router-link to="/tasks" class="nav-item nav-link">Tasks</router-link>
+                                <router-link to="/add-task" class="nav-item nav-link">Add Task</router-link>
                             </div>
 
                             <div class="nav-right d-flex">

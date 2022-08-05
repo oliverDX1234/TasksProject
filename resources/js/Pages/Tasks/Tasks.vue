@@ -18,6 +18,13 @@
                         <datepicker id="expiration" :clearable="false" :minDate="new Date()" v-model="row.expiration_date" :format="format" :enableTimePicker="false" @update:modelValue="update" @closed="updateFunction(row.id, row.expiration_date)"></datepicker>
                     </template>
 
+                    <template v-slot:actions="{row, updated}">
+                        <div class="d-flex" >
+                            <div><button @click="removeItem(row.id)"><font-awesome-icon icon="fa-solid fa-remove"/></button></div>
+                            <div class="mx-1" @click="editItem(row.id)"><button><font-awesome-icon icon="fa-solid fa-edit"/></button></div>
+                        </div>
+                    </template>
+
                 </v-client-table>
 
             </div>
@@ -42,7 +49,7 @@ export default {
     data(){
         return {
             data:[],
-            columns: ["id", "title", "status", "user_id", "expiration_date", "description"],
+            columns: ["id", "title", "status", "user_id", "expiration_date", "description", "actions"],
             options:{
                 editableColumns:['expiration_date']
             }
@@ -78,13 +85,32 @@ export default {
         },
         async updateFunction(id, value){
            let response = await this.$axios.put("api/tasks/" + id, {
-                value: moment(value).format('DD/MM/YYYY')
+                expiration: moment(value).format('DD/MM/YYYY')
             });
 
-           if(response){
+           if(response.status === 200){
                this.toast.success(response.data.message);
            }
 
+        },
+
+        async removeItem(id){
+            let response = await this.$axios.delete("api/tasks/" + id);
+
+            if(response.status === 200){
+
+                let index = this.data.findIndex( x => x.id === id);
+
+                if(index !== -1){
+                    this.data.splice(index, 1);
+                }
+
+                this.toast.success(response.data.message);
+            }
+        },
+
+        editItem(id){
+            this.$router.push("/edit-task/" + id);
         }
     },
     mounted(){

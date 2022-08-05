@@ -3,7 +3,7 @@ import state from "../store";
 
 import Register from '../pages/Register';
 import Tasks from "../Pages/Tasks/Tasks"
-import AddTask from "../Pages/Tasks/AddTask";
+import Task from "../Pages/Tasks/Task";
 
 export const routes = [
     {
@@ -23,14 +23,6 @@ export const routes = [
         },
     },
     {
-        name: 'dashboard',
-        path: '/dashboard',
-        component: () => import("../Pages/DashBoard"),
-        meta: {
-            requiresAuth: true,
-        },
-    },
-    {
         name: 'tasks',
         path: '/tasks',
         component: Tasks,
@@ -40,13 +32,27 @@ export const routes = [
     },
 
     {
-        name: 'add-task',
-        path: '/add-task',
-        component: AddTask,
+        name: 'edit-task',
+        path: '/edit-task/:id',
+        component: Task,
         meta: {
             requiresAuth: true,
         },
     },
+
+    {
+        name: 'add-task',
+        path: '/add-task',
+        component: Task,
+        meta: {
+            requiresAuth: true,
+        },
+    },
+
+    {
+        path: "/:catchAll(.*)",
+        component: () => import("../pages/404")
+    }
 
 ];
 
@@ -65,6 +71,12 @@ router.beforeEach((to, from, next) => {
             return next();
         } else {
             return next('/');
+        }
+    } else if (to.matched.some((record) => {
+        return record.meta && !record.meta.requiresAuth && state.getters['authentication/isAuthenticated']
+    })) {
+        if (to.path === "/") {
+            return next("/tasks");
         }
     }
 
