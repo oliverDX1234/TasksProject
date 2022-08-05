@@ -49,7 +49,7 @@
                             <div class="form-group row">
                                 <label for="expiration" class="col-sm-4 col-form-label text-md-right">Expiration Date *</label>
                                 <div class="col-md-6">
-                                    <datepicker id="expiration" type="email" v-model="expiration" :format="format" required :enableTimePicker="false"></datepicker>
+                                    <datepicker id="expiration" type="email" :minDate="new Date()" v-model="expiration" :format="format" required :enableTimePicker="false"></datepicker>
                                 </div>
                             </div>
 

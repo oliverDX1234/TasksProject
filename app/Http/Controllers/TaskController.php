@@ -15,7 +15,18 @@ class TaskController extends Controller
 
     public function index()
     {
-        //
+
+        if(auth()->user()->role === "admin"){
+            $tasks = Task::all();
+        }else{
+            $tasks = Task::where("user_id", auth()->user()->id)->get();
+        }
+
+
+        return response()->json([
+            "tasks" => $tasks,
+            "message" => "success"
+        ]);
     }
 
     public function create()
@@ -59,16 +70,24 @@ class TaskController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        try{
+            $task = Task::findOrFail($id);
+
+            $task->expiration_date = Carbon::createFromFormat('d/m/Y', $request->value);
+
+            $task->save();
+
+        }catch(Exception $e){
+            return response()->json([
+                "message" => $e->getMessage()
+            ], 400);
+        }
+
+        return response()->json([
+            "message" => "Successfully updated date"
+        ], 200);
     }
 
     /**

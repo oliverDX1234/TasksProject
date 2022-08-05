@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\TaskController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,4 +25,6 @@ Route::group([ 'middleware' => ['auth:sanctum']], function(){
     Route::get('users', [UserController::class, 'allUsers']);
 
     Route::post('add-user', [TaskController::class, 'store']);
+
+    Route::resource('tasks', TaskController::class);
 });
