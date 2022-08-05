@@ -17,9 +17,9 @@ class TaskController extends Controller
     {
 
         if(auth()->user()->role === "admin"){
-            $tasks = Task::all();
+            $tasks = Task::orderBy("expiration_date", "desc")->get();
         }else{
-            $tasks = Task::where("user_id", auth()->user()->id)->get();
+            $tasks = Task::where("user_id", auth()->user()->id)->orderBy("expiration_date", "desc")->get();
         }
 
 
