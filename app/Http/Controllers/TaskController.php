@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskStoreRequest;
 use App\Models\Task;
+use App\Models\User;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -13,7 +15,7 @@ use Illuminate\Support\Carbon;
 class TaskController extends Controller
 {
 
-    public function index()
+    public function index(): JsonResponse
     {
 
         if(auth()->user()->role === "admin"){
@@ -30,7 +32,7 @@ class TaskController extends Controller
     }
 
 
-    public function show($id)
+    public function show($id): JsonResponse
     {
         try{
             $task = Task::where("id", $id)->with("user")->first();
@@ -132,5 +134,16 @@ class TaskController extends Controller
                 "message" => $e->getMessage(),
             ], 400);
         }
+    }
+
+    public function getTasks($username)
+    {
+        $user = User::where("name", $username)->with("tasks")->first();
+
+        if(!$user){
+            throw new ModelNotFoundException("The user with this username was not found");
+        }
+
+        return response()->json($user->tasks->toArray(), 200);
     }
 }
