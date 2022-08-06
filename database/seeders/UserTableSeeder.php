@@ -29,7 +29,10 @@ class UserTableSeeder extends Seeder
                 'name' => "User2",
                 'email' => "b@abc.org",
                 'password' => Hash::make('Secret!'),
-                "role" => "user"
+                "role" => "user",
+                "email_verified_at" => now(),
+                "created_at" => now(),
+                "updated_at" => now()
             ]
         ]);
     }

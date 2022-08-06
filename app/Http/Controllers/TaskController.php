@@ -17,9 +17,9 @@ class TaskController extends Controller
     {
 
         if(auth()->user()->role === "admin"){
-            $tasks = Task::orderBy("expiration_date", "desc")->get();
+            $tasks = Task::orderBy("expiration_date", "desc")->where("status", "!=", "completed")->get();
         }else{
-            $tasks = Task::where("user_id", auth()->user()->id)->orderBy("expiration_date", "desc")->get();
+            $tasks = Task::where("user_id", auth()->user()->id)->where("status", "!=", "completed")->orderBy("expiration_date", "desc")->get();
         }
 
 
@@ -109,6 +109,27 @@ class TaskController extends Controller
         }catch(Exception $e){
             return response()->json([
                 "message" => $e->getMessage()
+            ], 400);
+        }
+    }
+
+    public function moveTask(Request $request): JsonResponse
+    {
+        try{
+            $task = Task::findOrFail($request->id);
+
+            $task->status = "completed";
+
+            $task->save();
+
+            return response()->json([
+                "task" => $task->id,
+                "message" => "Successfully updated task"
+            ], 200);
+
+        }catch(Exception $e){
+            return response()->json([
+                "message" => $e->getMessage(),
             ], 400);
         }
     }

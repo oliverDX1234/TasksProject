@@ -17,6 +17,7 @@ import "vue-toastification/dist/index.css";
 
 import {ClientTable} from 'v-tables-3';
 
+import {markRaw} from 'vue'
 
 library.add(faArrowRightFromBracket, faRemove, faEdit)
 
@@ -29,7 +30,12 @@ app.use(Toast, {
     position: "bottom-right"
 });
 
+import VtTableRow from "./components/VtTableRow";
+import VtTableCell from "./components/VtTableCell";
+import VtChildRowToggler from "./components/VtChildRowToggler";
+
 app.use(ClientTable)
+
 
 
 app.config.globalProperties.$axios = axios;

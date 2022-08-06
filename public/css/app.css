@@ -10925,6 +10925,28 @@ textarea.form-control-lg {
     margin-bottom: 0;
 }
 
+
+.cursor-pointer {
+    cursor: move;
+}
+
+.dropzone{
+    height: 300px;
+    width: 100%;
+    border: 1px solid black;
+    text-align: center;
+}
+
+.dropzone h5{
+    text-transform: uppercase;
+    padding-top: 140px;
+}
+
+.dragOver{
+    background: #ddd;
+}
+
+
 form .form-group{
     margin-bottom: 10px;
 }
