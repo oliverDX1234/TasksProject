@@ -79,7 +79,7 @@ export default {
                     await this.$router.push({name: 'tasks'})
                 } catch (error) {
 
-                    this.error = "There was a problem processing the request";
+                    this.error = error;
                 }
             }
         },

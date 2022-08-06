@@ -104,8 +104,12 @@ export default {
             this.$refs.myTable.setLoadingState(false);
         },
         async updateFunction(id, value) {
+
+            if(typeof value === "string"){
+                return;
+            }
             let response = await this.$axios.put("api/tasks/" + id, {
-                expiration: moment(value).format('DD/MM/YYYY')
+                expiration_date: moment(value).format('DD/MM/YYYY')
             });
 
             if (response.status === 200) {

@@ -9,7 +9,6 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 
 class TaskController extends Controller
@@ -27,7 +26,7 @@ class TaskController extends Controller
 
         return response()->json([
             "tasks" => $tasks,
-            "message" => "success"
+            "message" => "Success"
         ]);
     }
 
@@ -39,7 +38,7 @@ class TaskController extends Controller
 
             return response()->json([
                 "task" => $task,
-                "message" => "success"
+                "message" => "Success"
             ], 200);
         }catch(Exception $e){
             return response()->json([
@@ -63,7 +62,7 @@ class TaskController extends Controller
             $task->save();
 
             return response()->json([
-                "message" => "success"
+                "message" => "Successfully stored task"
             ], 200);
 
         }catch(Exception $e){
@@ -80,7 +79,7 @@ class TaskController extends Controller
             $task = Task::findOrFail($id);
 
             $task->title = $request->has("title") ? $request->title : $task->title;
-            $task->expiration_date = $request->has('expiration') ? Carbon::createFromFormat('d/m/Y', $request->expiration) : $task->expiration_date;
+            $task->expiration_date = $request->has('expiration_date') ? Carbon::createFromFormat('d/m/Y', $request->expiration_date) : $task->expiration_date;
             $task->status = $request->has("status") ? $request->status : $task->status;
             $task->user_id = $request->has("user_id") ? $request->user_id : $task->user_id;
             $task->description = $request->has("description") ? $request->description : $task->description;
@@ -136,7 +135,7 @@ class TaskController extends Controller
         }
     }
 
-    public function getTasks($username)
+    public function getTasks($username): JsonResponse
     {
         $user = User::where("name", $username)->with("tasks")->first();
 

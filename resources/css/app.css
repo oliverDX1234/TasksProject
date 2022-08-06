@@ -1,0 +1,46 @@
+.navigation{
+    padding: 20px 0;
+    background: #333;
+    color: white;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.nav-left a:not(:first-child), .nav-right a:not(:first-child){
+    margin-left: 10px;
+}
+
+.nav-left a:not(:last-child)::after{
+    content: "|";
+    margin-left: 10px;
+}
+
+.nav-right p{
+    margin-bottom: 0;
+}
+
+
+.cursor-pointer {
+    cursor: move;
+}
+
+.dropzone{
+    height: 300px;
+    width: 100%;
+    border: 1px solid black;
+    text-align: center;
+}
+
+.dropzone h5{
+    text-transform: uppercase;
+    padding-top: 140px;
+}
+
+.dragOver{
+    background: #ddd;
+}
+
+
+form .form-group{
+    margin-bottom: 10px;
+}

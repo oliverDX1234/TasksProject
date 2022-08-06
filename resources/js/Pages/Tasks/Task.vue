@@ -98,7 +98,7 @@ export default {
             expiration: moment().format('DD/MM/YYYY'),
             description: "",
             status: null,
-            user: null,
+            user: this.$store.getters["authentication/loggedUser"],
             errors: [],
             successMsg: null,
             users: [],
@@ -149,7 +149,7 @@ export default {
                     title: this.title,
                     status: this.status,
                     user_id: this.user.id,
-                    expiration_date: this.expiration,
+                    expiration_date: moment(this.expiration).format("DD/MM/YYYY"),
                     description: this.description
                 }
 
@@ -167,7 +167,7 @@ export default {
                         await this.toast.error(response.data.message);
                     }
 
-                    await this.$router.push({name: 'dashboard'})
+                    await this.$router.push({name: 'tasks'})
                 } catch (error) {
 
                     this.error = "There was a problem processing the request";

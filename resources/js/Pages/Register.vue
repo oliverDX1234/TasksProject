@@ -88,6 +88,7 @@ export default {
             e.preventDefault()
 
             let that = this;
+            this.errors = [];
 
             if (this.validateInput()) {
                 axios.get('/sanctum/csrf-cookie').then(response => {

@@ -83,7 +83,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 10:
                 _context.prev = 10;
                 _context.t0 = _context["catch"](3);
-                _this.error = "There was a problem processing the request";
+                _this.error = _context.t0;
 
               case 13:
               case "end":

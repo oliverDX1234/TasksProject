@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Session;
 use App\Models\User;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
+use function auth;
+use function response;
 
 class UserController extends Controller
 {
@@ -23,11 +25,12 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
+            $user->role = "user";
             $user->save();
 
             $success = true;
             $message = 'User register successfully';
-        } catch (\Illuminate\Database\QueryException $ex) {
+        } catch (QueryException $ex) {
             $success = false;
             $message = $ex->getMessage();
         }
@@ -77,7 +80,7 @@ class UserController extends Controller
             Session::flush();
             $success = true;
             $message = 'Successfully logged out';
-        } catch (\Illuminate\Database\QueryException $ex) {
+        } catch (QueryException $ex) {
             $success = false;
             $message = $ex->getMessage();
         }
