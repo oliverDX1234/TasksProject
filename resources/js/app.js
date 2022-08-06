@@ -30,7 +30,6 @@ app.use(Toast, {
 
 app.use(ClientTable)
 
-
 app.config.globalProperties.$axios = axios;
 app.use(router)
 app.use(store)
